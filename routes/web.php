@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,39 +14,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', "HomeController@index");
 
 Auth::routes();
+/*
+Route::get('/admin', 'Admin\HomeController@index')->name('admin.home')->middleware('auth');
+Route::get('/admin/products', 'Admin\ProductController@index')->name('admin.product.inde')->middleware('auth');
+Route::get('/admin/products/create', 'Admin\ProductController@index')->name('admin.product.create')->middleware('auth');
+Route::get('/admin/products/edit', 'Admin\ProductController@index')->name('admin.product.edit')->middleware('auth');
+Route::get('/admin/posts/', 'Admin\PostController@index')->name('admin.post.index')->middleware('auth');
+Route::get('/admin/posts/create', 'Admin\PostController@index')->name('admin.post.create')->middleware('auth');
+Route::get('/admin/posts/edit', 'Admin\PostController@index')->name('admin.post.edit')->middleware('auth');
+ */
+Route::middleware("auth")
+  ->namespace("Admin")
+  ->prefix("admin")
+  ->name("admin.")
+  ->group(function () {
+    Route::get('/', 'HomeController@index')->name('home');
+    // Route::get('/products', 'ProductController@index')->name('product.index');
+    // Route::get('/products/create', 'ProductController@index')->name('product.create');
+    // Route::get('/products/edit', 'ProductController@index')->name('product.edit');
 
-// Route::get('/admin', 'Admin\HomeController@index')->name('admin.home')->middleware('auth');
-// Route::get('/admin/products', 'Admin\ProductsController@index')->name('admin.product.index');
-// Route::get('/admin/products/create', 'Admin\ProductController@index')->name('admin.product.create');
-// Route::get('/admin/products/edit', 'Admin\Product@index')->name('admin.prduct.edit');
-// Route::get('/admin/posts', 'Admin\PosrController@index')->name('admin.posts.index');
-// Route::get('/admin/posts/create', 'Admin\PostController@index')->name('admin.posts.create');
-// Route::get('/admin/posts/edit', 'Admin\PostController@index')->name('admin.posts.edit');
+    Route::resource("posts", "PostController");
+    Route::resource("comments", "CommentController");
 
+    Route::get("users", "UserController@index")->name("users.index");
+  });
 
-Route::middleware("auth")->namespace("Admin")->prefix("admin")->name("admin.")
-    ->group(function (){
-        Route::get('/admin', 'HomeController@index')->name('home')->middleware('auth');
-        Route::get('/products', 'ProductsController@index')->name('product.index');
-        Route::get('/products/create', 'ProductController@index')->name('product.create');
-        Route::get('/products/edit', 'Product@index')->name('prduct.edit');
-        Route::get('/posts', 'PosrController@index')->name('posts.index');
-        Route::get('/posts/create', 'PostController@index')->name('posts.create');
-        Route::get('/posts/edit', 'PostController@index')->name('posts.edit');
+// Route::get("/comments", "CommentController@index")->name("comments");
 
-        Route::resource('comments', "CommentController");
-    });
-
-
-    // Route::get("{any?}", function() {
-    //     return view("admin.home");
-    // })->where("any", ".*");
-
-    Route::get("{any?}", function () {
-        return view("home");
-      })->where("any", ".*");
+Route::get("{any?}", function () {
+  return view("home");
+})->where("any", ".*");
