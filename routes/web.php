@@ -45,5 +45,5 @@ Route::middleware("auth")
 // Route::get("/comments", "CommentController@index")->name("comments");
 
 Route::get("{any?}", function () {
-  return view("welcome");
+  return view("home");
 })->where("any", ".*");
