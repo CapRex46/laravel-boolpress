@@ -38,8 +38,9 @@ Route::middleware("auth")
 
     Route::resource("posts", "PostController");
     Route::resource("comments", "CommentController");
+    Route::resource("users", "UserController");
 
-    Route::get("users", "UserController@index")->name("users.index");
+    // Route::get("users", "UserController@index")->name("users.index");
   });
 
 // Route::get("/comments", "CommentController@index")->name("comments");

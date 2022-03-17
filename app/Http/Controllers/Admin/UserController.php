@@ -24,7 +24,7 @@ class UserController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function create() {
-    //
+    return redirect()->route("admin.users.index");
   }
 
   /**
@@ -34,7 +34,7 @@ class UserController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function store(Request $request) {
-    //
+    return redirect()->route("admin.users.index");
   }
 
   /**
@@ -43,8 +43,8 @@ class UserController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id) {
-    //
+  public function show(User $user) {
+    return view("admin.users.show", compact("user"));
   }
 
   /**
@@ -53,8 +53,8 @@ class UserController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($id) {
-    //
+  public function edit(User $user) {
+    return view("admin.users.edit", compact("user"));
   }
 
   /**
@@ -65,7 +65,15 @@ class UserController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, $id) {
-    //
+    $user = User::findOrFail($id);
+    $data = $request->validate([
+      "name" => "required|min:2",
+      "email" => "required|email|unique:users,email," . $id
+    ]);
+
+    $user->update($data);
+
+    return redirect()->route("admin.users.show", $user->id);
   }
 
   /**

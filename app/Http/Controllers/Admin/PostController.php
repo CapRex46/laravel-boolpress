@@ -199,10 +199,13 @@ class PostController extends Controller {
   public function destroy($id) {
     $post = Post::findOrFail($id);
 
+    // toglie tutti i collegamenti con eventuali tag
     $post->tags()->detach();
     // $post->tags()->sync([]);
 
     $post->delete();
+
+    return redirect()->route("admin.posts.index");
   }
 
   protected function generateUniqueSlug($postTitle) {

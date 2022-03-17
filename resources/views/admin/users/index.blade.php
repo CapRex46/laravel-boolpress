@@ -14,7 +14,7 @@
               <tr>
                 <th>Nome</th>
                 <th>Email</th>
-                {{-- <td></td> --}}
+                <td></td>
               </tr>
             </thead>
             <tbody>
@@ -22,7 +22,12 @@
                 <tr class="">
                   <td>{{ $user->name }}</td>
                   <td>{{ $user->email }}</td>
-                  {{-- <td></td> --}}
+                  <td>
+                    <div class="ms-auto">
+                      <a class="me-3" href="{{ route('admin.users.show', $user->id) }}" title="Visualizza"><i
+                          class="fa-solid fa-eye"></i></a>
+                    </div>
+                  </td>
                 </tr>
               @endforeach
             </tbody>

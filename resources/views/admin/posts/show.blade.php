@@ -21,9 +21,17 @@
             </p>
 
             <div class="my-3">
-              Data creazione: {{ $post->created_at }}
+              @php
+                // use Carbon\Carbon;
+                $dateFormat = 'd/m/Y H:i';
+              @endphp
+
+              Data creazione: {{ $post->created_at->format($dateFormat) }}
               <br>
-              Data ultima modifica: {{ $post->updated_at }}
+              Data ultima modifica: {{ $post->updated_at->format($dateFormat) }}
+              {{-- ({{ $post->updated_at->diffForHumans(Carbon\Carbon::now()) }}) --}}
+              {{-- ({{ $post->updated_at->diffForHumans(Carbon::now()) }}) --}}
+              ({{ $post->updated_at->diffForHumans(date(0)) }})
               <br>
               Slug: {{ $post->slug }}
             </div>
