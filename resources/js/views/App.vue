@@ -5,13 +5,36 @@
     <div class="container py-4">
       <h1>Benvenuto in vue.js</h1>
 
-      <ul>
-        <li v-for="i in 10" :key="i">
-          {{ i }}
-        </li>
-      </ul>
+      <div>
+        <button class="btn btn-primary" @click="fetchPosts">refresh</button>
+      </div>
 
-      <ExampleComponentVue></ExampleComponentVue>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <PostCard v-for="post of posts" :key="post.id" :post="post"> </PostCard>
+      </div>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a
+              class="page-link"
+              @click="fetchPosts(pagination.current_page - 1)"
+              >Previous</a
+            >
+          </li>
+          <li class="page-item">
+            {{ pagination.current_page }} su {{ pagination.last_page }}
+          </li>
+
+          <li class="page-item">
+            <a
+              class="page-link"
+              @click="fetchPosts(pagination.current_page + 1)"
+              >Next</a
+            >
+          </li>
+        </ul>
+      </nav>
     </div>
 
     <TheFooter></TheFooter>
@@ -22,8 +45,35 @@
 import ExampleComponentVue from "../components/ExampleComponent.vue";
 import TheNavbar from "../components/TheNavbar.vue";
 import TheFooter from "../components/TheFooter.vue";
+import axios from "axios";
+import PostCard from "../components/PostCard.vue";
+
 export default {
-  components: { ExampleComponentVue, TheNavbar, TheFooter },
+  components: { ExampleComponentVue, TheNavbar, TheFooter, PostCard },
+  data() {
+    return {
+      posts: [],
+      pagination: {},
+    };
+  },
+  methods: {
+    async fetchPosts(page = 1) {
+      if (page < 1) {
+        page = 1;
+      }
+
+      if (page > this.pagination.last_page) {
+        page = this.pagination.last_page;
+      }
+
+      const resp = await axios.get("/api/posts?page=" + page);
+      this.pagination = resp.data;
+      this.posts = resp.data.data;
+    },
+  },
+  mounted() {
+    this.fetchPosts();
+  },
 };
 </script>
 
