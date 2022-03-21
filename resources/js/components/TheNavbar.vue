@@ -16,7 +16,13 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Left Side Of Navbar -->
-        <ul class="navbar-nav ms-auto"></ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item" v-for="route in routes" :key="route.path">
+            <router-link :to="!route.path ? '/' : route.path" class="nav-link">
+              {{ route.meta.linkText }}
+            </router-link>
+          </li>
+        </ul>
 
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -30,7 +36,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      routes: [],
+    };
+  },
+  mounted() {
+    this.routes = this.$router.getRoutes().filter((route) => !!route.meta.linkText);
+    console.log(this.routes);
+  },
+};
 </script>
 
 <style></style>
