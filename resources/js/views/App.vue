@@ -1,5 +1,7 @@
 <template>
+
   <div>
+
     <TheNavbar></TheNavbar>
 
     <div class="container py-4">
@@ -16,7 +18,7 @@ import TheNavbar from "../components/TheNavbar.vue";
 import TheFooter from "../components/TheFooter.vue";
 
 export default {
-    components: { TheNavbar, TheFooter },
+    components: { TheNavbar, TheFooter }
 }
 </script>
 

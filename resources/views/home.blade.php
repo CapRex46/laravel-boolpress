@@ -21,8 +21,8 @@
   <div id="appVue">
 
   </div>
-
-  <script src="{{ asset('js/vue.js') }}"></script>
+ciao
+ <script src="{{ asset('/js/vue.js') }}"></script>
 </body>
 
 </html>
