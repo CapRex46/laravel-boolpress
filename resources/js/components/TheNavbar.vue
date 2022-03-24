@@ -28,6 +28,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link" href="/login"> Admin </a>
+            <a class="nav-link" href="/admin" v-else>{{ user.name }}</a>
           </li>
         </ul>
       </div>
@@ -36,14 +37,36 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  data() {
+ data() {
     return {
       routes: [],
+      user: null,
     };
   },
+  methods: {
+    fetchUser() {
+      axios
+        .get("/api/user")
+        .then((resp) => {
+          this.user = resp.data;
+          localStorage.setItem("user", JSON.stringify(resp.data));
+          window.dispatchEvent(new CustomEvent("storedUserChanged"));
+        })
+        .catch((er) => {
+          console.error("Utente non loggato");
+          localStorage.removeItem("user");
+          window.dispatchEvent(new CustomEvent("storedUserChanged"));
+        });
+    },
+  },
   mounted() {
-    this.routes = this.$router.getRoutes().filter((route) => !!route.meta.linkText);
+    this.routes = this.$router
+      .getRoutes()
+      .filter((route) => !!route.meta.linkText);
+    this.fetchUser();
     console.log(this.routes);
   },
 };

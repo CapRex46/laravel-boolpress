@@ -39,6 +39,8 @@ Route::middleware("auth")
     Route::resource("posts", "PostController");
     Route::resource("comments", "CommentController");
     Route::resource("users", "UserController");
+    Route::get("contacts", "ContactController@index")->name("contacts.index");
+
 
     // Route::get("users", "UserController@index")->name("users.index");
   });

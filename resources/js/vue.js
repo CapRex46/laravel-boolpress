@@ -12,8 +12,8 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-import App from "./views/App.vue ";
-import router from "./router";
+import App from "./views/App";
+//import router from "./router";
 
 
 /**
@@ -24,6 +24,5 @@ import router from "./router";
   
 const app = new Vue({
     el: '#appVue',
-    render: (h) => h(App),
-    router: router
+    render: (h) => h(App)
 });

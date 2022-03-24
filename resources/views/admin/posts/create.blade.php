@@ -13,6 +13,16 @@
 
             <form action="{{ route('admin.posts.store') }}" method="post">
               @csrf
+              
+              {{-- immagine --}}
+              <div class="mb-3">
+                <label>Immagine di copertina</label>
+                <input type="file" name="coverImg" class="form-control @error('coverImg') is-invalid @enderror"
+                  placeholder="Inserisci il titolo">
+                @error('coverImg')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
 
               {{-- titolo --}}
               <div class="mb-3">

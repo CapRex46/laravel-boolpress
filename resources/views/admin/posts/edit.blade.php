@@ -14,7 +14,7 @@
             <form action="{{ route('admin.posts.update', $post->id) }}" method="post">
               @csrf
               @method("patch")
-
+            
               {{-- titolo --}}
               <div class="mb-3">
                 <label>Titolo</label>
@@ -24,7 +24,16 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-
+                {{-- Immagine --}}
+                <div class="mb-3">
+                  <label>Immagine di copertina</label>
+                  <input type="file" name="coverImg" class="form-control @error('coverImg') is-invalid @enderror"
+                    placeholder="Inserisci il titolo">
+                  <span>{{ $post->coverImg }}</span>
+                  @error('coverImg')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+                </div>
               {{-- contenuto del post --}}
               <div class="mb-3">
                 <label>Contenuto</label>
